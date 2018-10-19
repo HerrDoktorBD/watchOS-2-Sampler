@@ -9,21 +9,17 @@
 import WatchKit
 import Foundation
 
-
 let kItemKeyTitle       = "title"
 let kItemKeyDetail      = "detail"
 let kItemKeyClassPrefix = "prefix"
 
-
 class InterfaceController: WKInterfaceController {
 
-    
     @IBOutlet weak var table: WKInterfaceTable!
     var items: [Dictionary<String, String>]!
-    
-    
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
 
         items = [
             [
@@ -135,32 +131,29 @@ class InterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
-
     // =========================================================================
     // MARK: Private
-    
     private func loadTableData() {
         
         table.setNumberOfRows(items.count, withRowType: "Cell")
 
         var i=0
         for anItem in items {
-            let row = table.rowControllerAtIndex(i) as! RowController
-            row.showItem(anItem[kItemKeyTitle]!, detail: anItem[kItemKeyDetail]!)
+            let row = table.rowController(at: i) as! RowController
+            row.showItem(title: anItem[kItemKeyTitle]!, detail: anItem[kItemKeyDetail]!)
             i += 1
         }
     }
     
     // =========================================================================
     // MARK: WKInterfaceTable
-    
-    override func table(table: WKInterfaceTable, didSelectRowAtIndex rowIndex: Int) {
-        
+    override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
+
         print("didSelectRowAtIndex: \(rowIndex)")
-        
+
         let item = items[rowIndex]
         let title = item[kItemKeyClassPrefix]
         
-        pushControllerWithName(title!, context: nil)
+        pushController(withName: title!, context: nil)
     }
 }

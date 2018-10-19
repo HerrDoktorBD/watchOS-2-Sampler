@@ -10,29 +10,26 @@ import WatchKit
 import Foundation
 import CoreMotion
 
-
 class DeviceMotionInterfaceController: WKInterfaceController {
 
-    
     @IBOutlet weak var labelX: WKInterfaceLabel!
     @IBOutlet weak var labelY: WKInterfaceLabel!
     @IBOutlet weak var labelZ: WKInterfaceLabel!
-    
+
     let motionManager = CMMotionManager()
 
-    
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
     }
 
     override func willActivate() {
         super.willActivate()
-        
+
         let handler: CMDeviceMotionHandler = {(motion: CMDeviceMotion?, error: NSError?) -> Void in
-        }
-        
-        if motionManager.deviceMotionAvailable {
-            motionManager.startDeviceMotionUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: handler)
+            } as! CMDeviceMotionHandler
+
+        if motionManager.isDeviceMotionAvailable {
+            motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: handler)
         }
         else {
             labelX.setText("not available")
@@ -43,8 +40,7 @@ class DeviceMotionInterfaceController: WKInterfaceController {
 
     override func didDeactivate() {
         super.didDeactivate()
-        
+
         motionManager.stopDeviceMotionUpdates()
     }
-
 }

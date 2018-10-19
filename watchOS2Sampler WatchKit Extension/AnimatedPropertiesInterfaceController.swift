@@ -9,15 +9,12 @@
 import WatchKit
 import Foundation
 
-
 class AnimatedPropertiesInterfaceController: WKInterfaceController {
 
-    
     @IBOutlet weak var image: WKInterfaceImage!
-    
-    
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
     }
 
     override func willActivate() {
@@ -28,20 +25,17 @@ class AnimatedPropertiesInterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
-    
     // =========================================================================
     // MARK: - Actions
-    
     @IBAction func scaleBtnTapped() {
-        
-        animateWithDuration(0.5) { () -> Void in
+
+        animate(withDuration: 0.5) { () -> Void in
             self.image.setWidth(100)
             self.image.setHeight(160)
         }
 
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * double_t(NSEC_PER_SEC)))
-        dispatch_after(when, dispatch_get_main_queue()) { () -> Void in
-            self.animateWithDuration(0.5, animations: { () -> Void in
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+            self.animate(withDuration: 0.5, animations: { () -> Void in
                 self.image.setWidth(50)
                 self.image.setHeight(80)
             })
@@ -49,37 +43,34 @@ class AnimatedPropertiesInterfaceController: WKInterfaceController {
     }
 
     @IBAction func fadeBtnTapped() {
-        
-        animateWithDuration(0.5) { () -> Void in
+
+        animate(withDuration: 0.5) { () -> Void in
             self.image.setAlpha(0.0)
         }
-        
-        let when = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * double_t(NSEC_PER_SEC)))
-        dispatch_after(when, dispatch_get_main_queue()) { () -> Void in
-            self.animateWithDuration(0.5, animations: { () -> Void in
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+            self.animate(withDuration: 0.5, animations: { () -> Void in
                 self.image.setAlpha(1.0)
             })
         }
     }
 
     @IBAction func moveBtnTapped() {
-        
-        animateWithDuration(0.5) { () -> Void in
-            self.image.setHorizontalAlignment(WKInterfaceObjectHorizontalAlignment.Right)
-        }
-        
-        let when1 = dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * double_t(NSEC_PER_SEC)))
-        dispatch_after(when1, dispatch_get_main_queue()) { () -> Void in
-            self.animateWithDuration(0.2) { () -> Void in
-                self.image.setHorizontalAlignment(WKInterfaceObjectHorizontalAlignment.Left)
-            }
+
+        animate(withDuration: 0.5) { () -> Void in
+            self.image.setHorizontalAlignment(WKInterfaceObjectHorizontalAlignment.right)
         }
 
-        let when2 = dispatch_time(DISPATCH_TIME_NOW, Int64(1.2 * double_t(NSEC_PER_SEC)))
-        dispatch_after(when2, dispatch_get_main_queue()) { () -> Void in
-            self.animateWithDuration(0.5) { () -> Void in
-                self.image.setHorizontalAlignment(WKInterfaceObjectHorizontalAlignment.Center)
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(800)) {
+            self.animate(withDuration: 0.2, animations: { () -> Void in
+                self.image.setHorizontalAlignment(WKInterfaceObjectHorizontalAlignment.left)
+            })
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(1200)) {
+            self.animate(withDuration: 0.5, animations: { () -> Void in
+                self.image.setHorizontalAlignment(WKInterfaceObjectHorizontalAlignment.center)
+            })
         }
     }
 }

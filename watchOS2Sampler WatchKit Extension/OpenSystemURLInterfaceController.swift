@@ -9,11 +9,10 @@
 import WatchKit
 import Foundation
 
-
 class OpenSystemURLInterfaceController: WKInterfaceController {
 
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+    override func awake(withContext context: Any?) {
+        //super.awake(withContext: context)
     }
 
     override func willActivate() {
@@ -24,17 +23,15 @@ class OpenSystemURLInterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
-    
     // =========================================================================
     // MARK: - Actions
-    
     @IBAction func phoneBtnTapped() {
         let url = NSURL(string: "tel:")!
-        WKExtension.sharedExtension().openSystemURL(url)
+        WKExtension.shared().openSystemURL(url as URL)
     }
 
     @IBAction func smsBtnTapped() {
         let url = NSURL(string: "sms:")!
-        WKExtension.sharedExtension().openSystemURL(url)
+        WKExtension.shared().openSystemURL(url as URL)
     }
 }

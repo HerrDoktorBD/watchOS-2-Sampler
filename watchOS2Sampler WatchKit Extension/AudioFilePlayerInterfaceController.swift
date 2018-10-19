@@ -9,22 +9,19 @@
 import WatchKit
 import Foundation
 
-
 class AudioFilePlayerInterfaceController: WKInterfaceController {
 
-    
     @IBOutlet var playBtn: WKInterfaceButton!
     @IBOutlet var label:WKInterfaceLabel!
     
     var player: WKAudioFilePlayer!
-    
-    
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
-        
-        let filePath = NSBundle.mainBundle().pathForResource("se_tap", ofType: "m4a")!
-        let fileUrl = NSURL.fileURLWithPath(filePath)
-        let asset = WKAudioFileAsset(URL: fileUrl)
+
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+
+        let filePath = Bundle.main.path(forResource: "se_tap", ofType: "m4a")!
+        let fileUrl = NSURL.fileURL(withPath: filePath)
+        let asset = WKAudioFileAsset(url: fileUrl)
         let playerItem = WKAudioFilePlayerItem(asset: asset)
         player = WKAudioFilePlayer(playerItem: playerItem)
     }
@@ -37,19 +34,17 @@ class AudioFilePlayerInterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
-    
     // =========================================================================
     // MARK: - Actions
-    
     @IBAction func playBtnTapped() {
         
         switch player.status {
-        case .ReadyToPlay:
+        case .readyToPlay:
             label.setText("playing")
             player.play()
-        case .Failed:
+        case .failed:
             label.setText("failed")
-        case .Unknown:
+        case .unknown:
             label.setText("unknown")
         }
     }

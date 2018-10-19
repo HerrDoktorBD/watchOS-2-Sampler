@@ -13,13 +13,13 @@ class NSURLSessionInterfaceController: WKInterfaceController {
     
     @IBOutlet var image: WKInterfaceImage!
     
-    var task: NSURLSessionDataTask?
+    var task: URLSessionDataTask?
     var isActive: Bool = false
-    
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
     }
-    
+
     override func willActivate() {
         super.willActivate()
         isActive = true
@@ -29,28 +29,30 @@ class NSURLSessionInterfaceController: WKInterfaceController {
         super.didDeactivate()
         isActive = false
         if let t = task {
-            if t.state == NSURLSessionTaskState.Running {
+            if t.state == URLSessionTask.State.running {
                 t.cancel()
             }
         }
     }
 
     @IBAction func getImageBtnTapped() {
+
         let url = NSURL(string:"https://pbs.twimg.com/profile_images/3186881240/fa714ece16d0fabccf903cec863b1949_400x400.png")!
-        let conf = NSURLSessionConfiguration.defaultSessionConfiguration()
-        let session = NSURLSession(configuration: conf)
-        task = session.dataTaskWithURL(url) { (data, res, error) -> Void in
+        let conf = URLSessionConfiguration.default
+        let session = URLSession(configuration: conf)
+        task = session.dataTask(with: url as URL) { (data, res, error) -> Void in
             if let e = error {
-                print("dataTaskWithURL fail: \(e.debugDescription)")
+                print("dataTaskWithURL fail: \(e.localizedDescription)")
                 return
             }
             if let d = data {
                 let image = UIImage(data: d)
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+
+                DispatchQueue.main.async { () -> Void in
                     if self.isActive {
                         self.image.setImage(image)
                     }
-                })
+                }
             }
         }
         task!.resume()

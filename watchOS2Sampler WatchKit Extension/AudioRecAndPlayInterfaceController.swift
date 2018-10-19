@@ -9,16 +9,13 @@
 import WatchKit
 import Foundation
 
-
 class AudioRecAndPlayInterfaceController: WKInterfaceController {
 
-    
     @IBOutlet weak var recLabel: WKInterfaceLabel!
     @IBOutlet weak var playLabel: WKInterfaceLabel!
-    
-    
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
     }
 
     override func willActivate() {
@@ -29,52 +26,48 @@ class AudioRecAndPlayInterfaceController: WKInterfaceController {
         super.didDeactivate()
     }
 
-    
     // =========================================================================
     // MARK: - Private
-
     func recFileURL() -> NSURL? {
-        
+
         // Must use a shared container
-        let fileManager = NSFileManager.defaultManager()
-        let container = fileManager.containerURLForSecurityApplicationGroupIdentifier("group.com.shu223.watchos2sampler") // replace with your own identifier!!!!
+        let fileManager = FileManager.default
+        let container = fileManager.containerURL(forSecurityApplicationGroupIdentifier: "group.com.tonymontes.watchos2sampler") // replace with your own identifier!!!!
         if let container = container {
-            return container.URLByAppendingPathComponent("rec.mp4")
+            return container.appendingPathComponent("rec.mp4") as NSURL
         }
         else {
             return nil
         }
     }
-    
-    
+
     // =========================================================================
     // MARK: - Actions
-    
     @IBAction func recBtnTapped() {
 
         if let recFileUrl = recFileURL() {
-            
-            presentAudioRecorderControllerWithOutputURL(
-                recFileUrl,
-                preset: WKAudioRecorderPreset.HighQualityAudio,
+
+            presentAudioRecorderController(
+                withOutputURL: recFileUrl as URL,
+                preset: WKAudioRecorderPreset.highQualityAudio,
                 options: nil,
                 completion:
                 { (didSave, error) -> Void in
-                    print("error:\(error)\n")
-                    self.recLabel.setText("didSave:\(didSave), error:\(error)")
+                    print("error:\(String(describing: error))\n")
+                    self.recLabel.setText("didSave:\(didSave), error:\(String(describing: error))")
             })
         }
     }
-    
+
     @IBAction func playBtnTapped() {
-        
+
         if let recFileUrl = recFileURL() {
-            
-            presentMediaPlayerControllerWithURL(
-                recFileUrl,
+
+            presentMediaPlayerController(
+                with: recFileUrl as URL,
                 options: nil) { (didPlayToEnd, endTime, error) -> Void in
                     
-                    self.playLabel.setText("didPlayToEnd:\(didPlayToEnd), endTime:\(endTime), error:\(error)")
+                    self.playLabel.setText("didPlayToEnd:\(didPlayToEnd), endTime:\(endTime), error:\(String(describing: error))")
             }
         }
     }

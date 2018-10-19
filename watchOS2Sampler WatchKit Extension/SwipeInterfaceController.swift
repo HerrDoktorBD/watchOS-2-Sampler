@@ -9,11 +9,10 @@
 import WatchKit
 import Foundation
 
-
 class SwipeInterfaceController: WKInterfaceController {
 
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
     }
 
     override func willActivate() {
@@ -23,5 +22,4 @@ class SwipeInterfaceController: WKInterfaceController {
     override func didDeactivate() {
         super.didDeactivate()
     }
-
 }

@@ -9,11 +9,9 @@
 #import "GradationInterfaceController.h"
 @import UIKit;
 
-
 @interface GradationInterfaceController ()
 @property (nonatomic, weak) IBOutlet WKInterfaceImage *image;
 @end
-
 
 @implementation GradationInterfaceController
 
@@ -28,7 +26,6 @@
 - (void)didDeactivate {
     [super didDeactivate];
 }
-
 
 // =============================================================================
 #pragma mark - Actions
@@ -104,8 +101,5 @@
     [self.image setImage:uiimage];
 }
 
-
 @end
-
-
 

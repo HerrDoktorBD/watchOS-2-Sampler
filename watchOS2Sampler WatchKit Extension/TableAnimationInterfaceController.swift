@@ -9,16 +9,13 @@
 import WatchKit
 import Foundation
 
-
 class TableAnimationInterfaceController: WKInterfaceController {
 
-    
     @IBOutlet weak var table: WKInterfaceTable!
     var numberOfRows: Int = 3
 
-    
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
     }
 
     override func willActivate() {
@@ -35,18 +32,16 @@ class TableAnimationInterfaceController: WKInterfaceController {
     private func loadTableData() {
         
         for i in 0 ..< numberOfRows {
-            let row = table.rowControllerAtIndex(i) as! RowController
-            row.showItem("\(i)", detail: "")
+            let row = table.rowController(at: i) as! RowController
+            row.showItem(title: "\(i)", detail: "")
         }
     }
 
-    
     // =========================================================================
     // MARK: - Actions
-    
     @IBAction func insertBtnTapped() {
         
-        table.insertRowsAtIndexes(NSIndexSet(index: 0), withRowType: "Cell")
+        table.insertRows(at: NSIndexSet(index: 0) as IndexSet, withRowType: "Cell")
         numberOfRows += 1
         loadTableData()
     }
@@ -56,8 +51,8 @@ class TableAnimationInterfaceController: WKInterfaceController {
         if numberOfRows <= 1 {
             return
         }
-        
-        table.removeRowsAtIndexes(NSIndexSet(index: 0))
+
+        table.removeRows(at: NSIndexSet(index: 0) as IndexSet)
         numberOfRows -= 1
         loadTableData()
     }
