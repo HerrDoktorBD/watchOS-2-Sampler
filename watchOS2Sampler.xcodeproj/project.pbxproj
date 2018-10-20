@@ -534,6 +534,9 @@
 							com.apple.HealthKit = {
 								enabled = 1;
 							};
+							com.apple.HealthKit.watchos = {
+								enabled = 1;
+							};
 						};
 					};
 				};

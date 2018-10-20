@@ -123,7 +123,7 @@ class InterfaceController: WKInterfaceController {
     override func willActivate() {
         super.willActivate()
         print("willActivate")
-        
+
         loadTableData()
     }
 
@@ -134,7 +134,7 @@ class InterfaceController: WKInterfaceController {
     // =========================================================================
     // MARK: Private
     private func loadTableData() {
-        
+
         table.setNumberOfRows(items.count, withRowType: "Cell")
 
         var i=0
@@ -144,7 +144,7 @@ class InterfaceController: WKInterfaceController {
             i += 1
         }
     }
-    
+
     // =========================================================================
     // MARK: WKInterfaceTable
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
@@ -153,7 +153,7 @@ class InterfaceController: WKInterfaceController {
 
         let item = items[rowIndex]
         let title = item[kItemKeyClassPrefix]
-        
+
         pushController(withName: title!, context: nil)
     }
 }
